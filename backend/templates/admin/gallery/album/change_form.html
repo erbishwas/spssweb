@@ -1,0 +1,20 @@
+{% extends "admin/change_form.html" %}
+
+{% block after_field_sets %}
+{{ block.super }}
+{% include "admin/includes/gallery_file_upload.html" %}
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+/* Additional admin-specific styles if needed */
+.upload-container {
+    margin: 15px 0;
+    background: #f8f8f8;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+}
+</style>
+{% endblock %}

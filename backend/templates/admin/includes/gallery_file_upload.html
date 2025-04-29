@@ -1,0 +1,49 @@
+{# templates/admin/includes/gallery_file_upload.html #}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.querySelector('input[type="file"][multiple]');
+        if (!fileInput) return;
+    
+        const container = document.createElement('div');
+        container.className = 'upload-container';
+        fileInput.parentNode.insertBefore(container, fileInput.nextSibling);
+    
+        const updateFileList = () => {
+            const files = fileInput.files;
+            container.innerHTML = files.length > 0 
+                ? `<div class="upload-files">
+                     <strong>Selected files:</strong>
+                     <ul>${Array.from(files).map(file => 
+                       `<li>${file.name} (${(file.size/1024).toFixed(1)} KB)</li>`
+                     ).join('')}</ul>
+                   </div>`
+                : '<div class="upload-empty">No files selected</div>';
+        };
+    
+        fileInput.addEventListener('change', updateFileList);
+        updateFileList();
+    });
+    </script>
+    
+    <style>
+    .upload-container {
+        margin: 1rem 0;
+        padding: 1rem;
+        background: #f8f8f8;
+        border: 1px dashed #ddd;
+    }
+    .upload-files ul {
+        margin: 0.5rem 0 0 1.5rem;
+        padding: 0;
+        list-style: none;
+    }
+    .upload-files li {
+        padding: 0.25rem 0;
+        color: #666;
+        font-size: 0.9em;
+    }
+    .upload-empty {
+        color: #999;
+        font-style: italic;
+    }
+    </style>

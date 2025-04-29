@@ -1,0 +1,9 @@
+{
+  "python.pythonPath": "backend/venv/bin/python",
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "files.associations": {
+    "**/templates/*.html": "html",
+    "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+  }
+}
