@@ -1,0 +1,31 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/technic3/spssweb/backend"
+PassengerBaseURI "/backend"
+PassengerPython "/home/technic3/virtualenv/spssweb/backend/3.9/bin/python"
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+
+
+# ========== STATIC FILES CONFIGURATION ==========
+# Serve static files directly without passing to Passenger
+Alias /backend/static/ /home/technic3/spssweb/backend/staticfiles/
+
+<Directory /home/technic3/spssweb/backend/staticfiles>
+    Options FollowSymLinks
+    Require all granted
+</Directory>
+
+
+# Serve media files
+Alias /backend/media/ /home/technic3/spssweb/backend/media/
+
+<Directory /home/technic3/spssweb/backend/media>
+    Options FollowSymLinks
+    Require all granted
+</Directory>
+
+# ========== ADDITIONAL SECURITY ==========
+# Prevent direct access to sensitive files
+<FilesMatch "\.(py|pyc|pyo|db|sqlite3|env)$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>

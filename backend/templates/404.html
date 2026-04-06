@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Page Not Found - 404</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4f0fa 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 3rem;
+      text-align: center;
+    }
+
+    .error-code {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 2rem 0;
+    }
+
+    .digit {
+      font-size: 8rem;
+      font-weight: bold;
+      color: #3498db;
+      line-height: 1;
+    }
+
+    .mascot {
+      height: 120px;
+      margin: 0 1.5rem;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #7f8c8d;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .btn-secondary {
+      background-color: white;
+      color: #3498db;
+      border: 2px solid #3498db;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="error-code">
+      <span class="digit">4</span>
+      <img src="{% static 'images/logo.png' %}" alt="School Mascot" class="mascot">
+      <span class="digit">4</span>
+    </div>
+    <h2>Class Dismissed Early!</h2>
+    <p class="subtitle">
+      The page you're looking for seems to have skipped class. 
+      Don't worry, we'll help you find your way back to learning.
+    </p>
+    <div class="buttons">
+      <a href="https://technicalpashupati.edu.np" class="btn btn-primary">Return to Homepage</a>
+      <a href="javascript:history.back()" class="btn btn-secondary">Go Back</a>
+    </div>
+  </div>
+</body>
+</html>

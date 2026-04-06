@@ -1,13 +1,13 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import FlashNotice
-from .models import FlashNoticeSerializer
+from .serializers import FlashNoticeSerializer
+from .models import FlashNotice
 
 @api_view(['GET'])
 def flash_notice(request):
     try:
-        notice= FlashNotice.objects.latest('id')
-        serializer = FlashNoticeSerializer(notice)
+        notice = FlashNotice.objects.latest('id') 
+        serializer = FlashNoticeSerializer(notice, context={"request": request})
         return Response(serializer.data)
     except FlashNotice.DoesNotExist:
         return Response({"error": "Flash notice not found"}, status=404)

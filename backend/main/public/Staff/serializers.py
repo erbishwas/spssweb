@@ -15,6 +15,13 @@ class BasicStaffSerializer(serializers.ModelSerializer):
             'staff_code',
             'status',
         ]
+        
+        
+    def get_image(self, obj):
+        request = self.context.get('request')  # Safely get request from context
+        if obj.image and request:
+            return request.build_absolute_uri(obj.image.url)
+        return None
 
 class StaffProfileSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()

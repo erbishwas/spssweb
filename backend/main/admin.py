@@ -17,6 +17,8 @@ from .public.ClassExamRoutine import admin as ClassExamRoutineAdmin
 from .public.Feedback import admin as FeedbackAdmin
 from .public.Admission import admin as AdmissionAdmin
 
+from .public.Dashboard import admin as DashboardAdmin
+
 
 
 

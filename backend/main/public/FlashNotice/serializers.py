@@ -1,14 +1,15 @@
-from django.db import models
+from rest_framework import serializers
+from .models import FlashNotice
 
-class FlashNotice(models.Model):
-    id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255)
-    message = models.TextField()
-    image = models.ImageField(upload_to='flash_notices/')
-    trun_flash_On = models.BooleanField(default=True)
+class FlashNoticeSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
 
     class Meta:
-        db_table = 'flash_notice'
+        model = FlashNotice
+        fields = ['id', 'title', 'message', 'image', 'trun_flash_On']
 
-    def __str__(self):
-        return self.title
+    def get_image(self, obj):
+        request = self.context.get('request')
+        if obj.image:
+            return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+        return None

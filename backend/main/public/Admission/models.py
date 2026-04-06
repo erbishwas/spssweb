@@ -4,9 +4,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-import os
-from uuid import uuid4
-from datetime import datetime
+
 
 class Grade(models.Model):
     CLASS_LEVELS = [
@@ -84,15 +82,51 @@ class Grade(models.Model):
         verbose_name_plural = _('Grades')
         db_table = 'grades'
     
-    def __str__(self):
+    def get_display_name(self, show_section=False):
+        """
+        Returns the appropriate display name based on the combination of fields:
+        - For nursery to 8: no faculty shown
+        - For engineering: no medium shown
+        - Shows section only if explicitly requested or if multiple sections exist
+        """
         parts = [self.get_class_level_display()]
-        if self.medium:
-            parts.append(f"({self.get_medium_display()})")
-        if self.faculty:
+        
+        # Check if this is a primary level (Nursery to 8)
+        is_primary = self.class_level in ['Nursery', 'KG'] or (
+            self.class_level.isdigit() and int(self.class_level) <= 8
+        )
+        
+        # Add faculty if not primary and faculty exists
+        if not is_primary and self.faculty:
+            # For engineering, don't show medium
+            if self.faculty != 'Engineering':
+                if self.medium:
+                    parts.append(f"({self.get_medium_display()})")
             parts.append(f"- {self.get_faculty_display()}")
-        if self.section:
+        else:
+            # For primary levels, show medium if it exists
+            if self.medium:
+                parts.append(f"({self.get_medium_display()})")
+        
+        # Determine if we should show section
+        should_show_section = show_section
+        if not should_show_section:
+            # Check if there are other sections with same level, medium, faculty
+            similar_grades = Grade.objects.filter(
+                class_level=self.class_level,
+                medium=self.medium,
+                faculty=self.faculty
+            ).exclude(id=self.id)
+            should_show_section = similar_grades.exists()
+        
+        if should_show_section and self.section:
             parts.append(f"- Section {self.section}")
+        
         return ' '.join(parts)
+
+    def __str__(self):
+        return self.get_display_name()
+
 
     def clean(self):
         """Validate that faculty is only set for higher grades"""
